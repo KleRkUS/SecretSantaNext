@@ -18,7 +18,7 @@ export class SantaController implements SantaControllerClass {
     private randomlySortedPlayers: RandomlySortedPlayer[]
     private readonly crossPresents: boolean
 
-    constructor(players: PlayersFormState, crossPresents: boolean = true) {
+    constructor(players: PlayersFormState, crossPresents: boolean) {
         this.players = players
         this.randomlySortedPlayers = []
         this.crossPresents = crossPresents
@@ -71,7 +71,7 @@ export class SantaController implements SantaControllerClass {
                 )
 
                 this.randomlySortedPlayers = this.randomlySortedPlayers.filter(
-                    (player) => player?.id !== playerId
+                    (player) => player.id !== playerId
                 )
 
                 return {
@@ -117,7 +117,7 @@ export class SantaController implements SantaControllerClass {
                         []
                     )
             })
-            .catch((error) => {
+            .catch((error: string) => {
                 this.throwError(error)
                 return []
             })

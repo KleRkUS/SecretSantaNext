@@ -1,9 +1,7 @@
 {
   "tabWidth": 4,
   "singleQuote": true,
-  "trailingComma": "none",
   "bracketSpacing": true,
-  "semi": false,
   "importOrder": ["#(.*)$", "^[./]" ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true

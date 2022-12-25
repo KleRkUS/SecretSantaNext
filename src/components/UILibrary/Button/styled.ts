@@ -6,13 +6,13 @@ const getButtonStyleString = (
     background: string,
     text: string,
     border: string,
-    borderWidth: number = 1
+    borderWidth?: number
 ): string =>
     `
         background-color: ${background};
         color: ${text};
         border-color: ${border};
-        border-width: ${borderWidth};
+        border-width: ${borderWidth ?? '1'};
         border-style: solid;
     `
 
@@ -27,13 +27,13 @@ export const SButton = styled.button<SButtonProps>`
         switch (variant) {
             case 'regular':
                 return getButtonStyleString(
-                    theme.colors.contrast,
+                    theme.background,
                     theme.headerBackground,
                     theme.headerBackground
                 )
             case 'contrast':
                 return getButtonStyleString(
-                    theme.background,
+                    theme.colors.contrast,
                     theme.text,
                     theme.headerBackground
                 )
@@ -46,7 +46,7 @@ export const SButton = styled.button<SButtonProps>`
                 )
             default:
                 return getButtonStyleString(
-                    theme.colors.contrast,
+                    theme.background,
                     theme.headerBackground,
                     theme.headerBackground
                 )
@@ -57,13 +57,13 @@ export const SButton = styled.button<SButtonProps>`
     font-size: ${({ theme }: SButtonProps) => theme.sizes.md};
     border-radius: ${({ theme }: SButtonProps) => theme.spacings.sm};
     margin-top: ${({ theme, marginTop }: SButtonProps) =>
-        theme.spacings[marginTop!] || 0};
-    margin-left: ${({ theme, marginLeft }: SButtonProps) =>
-        theme.spacings[marginLeft!] || 0};
+        marginTop ? theme.spacings[marginTop] : 0};
+    margin-left: ${({ theme, marginLeft }: SButtonProps) => 
+        marginLeft ? theme.spacings[marginLeft] : 0};
     margin-bottom: ${({ theme, marginBottom }: SButtonProps) =>
-        theme.spacings[marginBottom!] || 0};
+        marginBottom ? theme.spacings[marginBottom] : 0};
     margin-right: ${({ theme, marginRight }: SButtonProps) =>
-        theme.spacings[marginRight!] || 0};
+        marginRight ? theme.spacings[marginRight] : 0};
     transition: all 0.3s ease-in-out;
     cursor: ${({ disabled }) => (disabled ? 'auto' : 'pointer')};
     box-shadow: none;

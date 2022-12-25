@@ -27,12 +27,12 @@ export const InputText = forwardRef(
         { onChange, ...otherProps }: InputTextProps,
         ref: Ref<HTMLInputElement>
     ) => {
-        const delayedInput = useExecutionDelay({ func: onChange!, delay: 300 })
+        const delayedInput = useExecutionDelay({ func: onChange, delay: 300 })
 
         const handleInput = useCallback(
             (e: ChangeEvent<HTMLInputElement> | undefined) => () => {
                 e?.preventDefault()
-                if (onChange) {
+                if (onChange && delayedInput) {
                     delayedInput(e?.target.value ?? '')
                 }
             },
@@ -42,3 +42,5 @@ export const InputText = forwardRef(
         return <SInputText ref={ref} onChange={handleInput} {...otherProps} />
     }
 )
+
+InputText.displayName = "InputText";

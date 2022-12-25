@@ -2,13 +2,11 @@ import Image from 'next/image'
 import {
     ChangeEvent,
     ChangeEventHandler,
-    MouseEvent,
     MouseEventHandler,
-    useCallback,
     useState
 } from 'react'
 
-import { Flex, Typography } from '#components/UILibrary'
+import { Typography } from '#components/UILibrary'
 
 import {
     SSelectContainer,
@@ -17,9 +15,9 @@ import {
     SSelectListItem
 } from './styled'
 
-type Option = {
-    id: number
-    name: string
+interface Option {
+    id: number;
+    name: string;
 }
 
 interface SelectProps {
@@ -46,7 +44,7 @@ export const Select = ({
         if (checkbox) {
             return (e: ChangeEvent<HTMLInputElement>) => {
                 updateOptions(
-                    e.target?.checked
+                    e.target.checked
                         ? [...chosenIds, id]
                         : chosenIds.filter(
                               (optionId: number) => optionId !== id

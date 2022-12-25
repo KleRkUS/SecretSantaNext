@@ -1,2 +1,1 @@
-export { createPlayers, getPlayers, players } from './playersSlice'
-export { changeTheme, getCurrentTheme, theme } from './themeSlice'
+export { switchTheme, getCurrentTheme, theme } from './themeSlice'

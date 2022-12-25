@@ -1,6 +1,6 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
-import { ThemesKeys } from '#app/constants'
+import {allThemes, ThemesKeys} from '#constants/themes'
 
 import { RootState } from '../store'
 
@@ -16,13 +16,19 @@ const themeSlice = createSlice({
     name: 'theme',
     initialState,
     reducers: {
-        changeTheme: (state: ThemeState, action: PayloadAction<ThemesKeys>) => {
-            state.current = action.payload
+        switchTheme: (state: ThemeState) => {
+            const currentIndex = allThemes.findIndex((theme) => theme === state.current);
+
+            if (currentIndex === allThemes.length - 1) {
+                state.current = allThemes[0]
+            } else {
+                state.current = allThemes[currentIndex + 1];
+            }
         }
     }
 })
 
-export const { changeTheme } = themeSlice.actions
+export const { switchTheme } = themeSlice.actions
 
 export const getCurrentTheme = (state: RootState) => state.theme.current
 export const theme = themeSlice.reducer

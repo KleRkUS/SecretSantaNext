@@ -1,4 +1,4 @@
-export type SantaRoutes = {
+export interface SantaRoutes {
     path: string
     title: string
 }

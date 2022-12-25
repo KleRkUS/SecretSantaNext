@@ -33,3 +33,5 @@ export interface SFlexProps extends StyleProps {
 export const Flex = memo(({ children, ...otherProps }: FlexProps) => (
     <SFlex {...otherProps}>{children}</SFlex>
 ))
+
+Flex.displayName = "Flex";

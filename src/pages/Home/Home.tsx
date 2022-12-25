@@ -4,7 +4,7 @@ import { FormFields } from '#components/FormFields'
 import { Button, Flex, Typography } from '#components/UILibrary'
 import { PlayerByPlayerResult } from '#controllers/santas'
 
-export type Player = {
+export interface Player {
     id: number
     name: string
     exclude: number[]
@@ -14,7 +14,7 @@ export type PlayersFormState = Player[]
 
 const initialFormState: PlayersFormState = []
 
-export const Home = () => {
+const Home = () => {
     const [formState, setFormState] =
         useState<PlayersFormState>(initialFormState)
     const [allowCrossPresents, setAllowCrossPresents] = useState<boolean>(true)
@@ -39,8 +39,13 @@ export const Home = () => {
                 crossPresents: allowCrossPresents
             })
         })
-            .then(async (res) => {
-                const parsed = await res.json()
+            .then(async (res: Response) => {
+                if (!res.ok) {
+                    const parsed: { message: string } = await res.json() as { message: string }
+                    throw new Error(parsed.message)
+                }
+
+                const parsed: { result: PlayerByPlayerResult } = await res.json() as { result: PlayerByPlayerResult }
                 setResults(parsed.result)
                 setRequestInProcess(false)
             })
@@ -108,9 +113,9 @@ export const Home = () => {
                                         )?.name
                                     }
                                     :
-                                    {' ' +
+                                    {` ${
                                         formState.find(({ id }) => id === value)
-                                            ?.name}
+                                            ?.name ?? 'No match'}`}
                                 </li>
                             ))}
                         </ul>
@@ -120,3 +125,5 @@ export const Home = () => {
         </>
     )
 }
+
+export default Home;

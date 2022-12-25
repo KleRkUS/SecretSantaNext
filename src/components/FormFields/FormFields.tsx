@@ -1,4 +1,4 @@
-import { memo, useCallback, useRef, useState } from 'react'
+import { memo, useCallback, useRef } from 'react'
 
 import { Button, Flex, InputText, Typography } from '#components/UILibrary'
 import { Select } from '#components/UILibrary/Select/Select'
@@ -16,19 +16,21 @@ export const FormFields = memo(
         const newPlayerRef = useRef<HTMLInputElement | null>(null)
 
         const addPlayer = useCallback(() => {
-            const { value } = newPlayerRef.current!
+            if (newPlayerRef.current) {
+                const {value} = newPlayerRef.current
 
-            if (value && value.length > 0) {
-                onUpdate([
-                    ...currentPlayers,
-                    {
-                        name: value,
-                        id: currentPlayers.length,
-                        exclude: []
-                    }
-                ])
+                if (value && value.length > 0) {
+                    onUpdate([
+                        ...currentPlayers,
+                        {
+                            name: value,
+                            id: currentPlayers.length,
+                            exclude: []
+                        }
+                    ])
+                }
             }
-        }, [currentPlayers, newPlayerRef])
+        }, [currentPlayers, newPlayerRef, onUpdate])
 
         const deletePlayer = (id: number) => {
             if (currentPlayers.some(({ id: playerId }) => playerId === id)) {
@@ -55,9 +57,8 @@ export const FormFields = memo(
         )
 
         return (
-            <>
                 <Flex alignItems="flex-start" direction="column">
-                    {currentPlayers?.map(({ name, id, exclude }) => (
+                    {currentPlayers.map(({ name, id, exclude }) => (
                         <SPlayerRow justifyContent="flex-start" key={id}>
                             <Typography>{name}</Typography>
                             <Button
@@ -114,7 +115,8 @@ export const FormFields = memo(
                         </Button>
                     </Flex>
                 </Flex>
-            </>
         )
     }
-)
+);
+
+FormFields.displayName = 'FormFields';

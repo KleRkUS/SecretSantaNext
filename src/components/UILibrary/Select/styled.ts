@@ -19,14 +19,14 @@ interface SSelectListProps {
 export const SSelectContainer = styled(Flex)`
     font-size: ${({ theme }: SSelectDropdown) => theme.sizes.md};
     border-radius: ${({ theme }: SSelectDropdown) => theme.spacings.sm};
-    margin-top: ${({ theme, marginTop }: SSelectDropdown) =>
-        theme.spacings[marginTop!] || 0};
-    margin-left: ${({ theme, marginLeft }: SSelectDropdown) =>
-        theme.spacings[marginLeft!] || 0};
-    margin-right: ${({ theme, marginRight }: SSelectDropdown) =>
-        theme.spacings[marginRight!] || 0};
-    margin-bottom: ${({ theme, marginBottom }: SSelectDropdown) =>
-        theme.spacings[marginBottom!] || 0};
+  margin-top: ${({ theme, marginTop }: SSelectDropdown) =>
+          marginTop ? theme.spacings[marginTop] : 0};
+  margin-left: ${({ theme, marginLeft }: SSelectDropdown) =>
+          marginLeft ? theme.spacings[marginLeft] : 0};
+  margin-bottom: ${({ theme, marginBottom }: SSelectDropdown) =>
+          marginBottom ? theme.spacings[marginBottom] : 0};
+  margin-right: ${({ theme, marginRight }: SSelectDropdown) =>
+          marginRight ? theme.spacings[marginRight] : 0};
     position: relative;
 `
 

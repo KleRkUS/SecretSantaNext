@@ -1,10 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { players, theme } from './slices'
+import { theme } from './slices'
 
 export const store = configureStore({
     reducer: {
-        players,
         theme
     }
 })

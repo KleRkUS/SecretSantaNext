@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, MouseEvent } from 'react'
 
 import { ColorsKeys, SizesKeys, SpacingKeys } from '#constants/themes'
 import { AppTheme } from '#services/theme'
@@ -17,6 +17,7 @@ interface StyleProps {
 
 interface TypographyProps extends StyleProps {
     children: React.ReactNode | string
+    onClick?: (e?: MouseEvent<HTMLSpanElement>) => void
 }
 
 export interface STypographyProps extends StyleProps {
@@ -28,3 +29,5 @@ export const Typography = memo(
         <STypography {...orherProps}>{children}</STypography>
     )
 )
+
+Typography.displayName = "Typography";
