@@ -1,19 +1,19 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { Flex } from '#components/UILibrary';
-import { SpacingKeys } from '#constants/themes';
-import { AppTheme, ThemedComponent } from '#services/theme';
+import { Flex } from '#components/UILibrary'
+import { SpacingKeys } from '#constants/themes'
+import { AppTheme, ThemedComponent } from '#services/theme'
 
 interface SSelectDropdown {
-    theme: AppTheme;
-    marginTop?: SpacingKeys;
-    marginLeft?: SpacingKeys;
-    marginBottom?: SpacingKeys;
-    marginRight?: SpacingKeys;
+    theme: AppTheme
+    marginTop?: SpacingKeys
+    marginLeft?: SpacingKeys
+    marginBottom?: SpacingKeys
+    marginRight?: SpacingKeys
 }
 
 interface SSelectListProps {
-    isOpened: boolean;
+    isOpened: boolean
 }
 
 export const SSelectContainer = styled(Flex)`
@@ -28,7 +28,7 @@ export const SSelectContainer = styled(Flex)`
     margin-bottom: ${({ theme, marginBottom }: SSelectDropdown) =>
         theme.spacings[marginBottom!] || 0};
     position: relative;
-`;
+`
 
 export const SSelectDropdown = styled(Flex)`
     width: 100%;
@@ -37,7 +37,7 @@ export const SSelectDropdown = styled(Flex)`
     border: 1px solid ${({ theme }: SSelectDropdown) => theme.headerBackground};
     box-sizing: border-box;
     cursor: pointer;
-`;
+`
 
 export const SSelectList = styled.ul<SSelectListProps>`
     width: 100%;
@@ -52,7 +52,7 @@ export const SSelectList = styled.ul<SSelectListProps>`
         isOpened ? 'auto' : 'none'};
     z-index: 2;
     padding: 0;
-`;
+`
 
 export const SSelectListItem = styled.li<ThemedComponent>`
     width: 100%;
@@ -63,4 +63,4 @@ export const SSelectListItem = styled.li<ThemedComponent>`
     input {
         cursor: pointer;
     }
-`;
+`

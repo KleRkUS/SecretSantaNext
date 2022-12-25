@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { Flex } from '#components/UILibrary/Flex';
+import { Flex } from '#components/UILibrary/Flex'
 
 export const SPageLayout = styled(Flex)`
     width: 100%;
-`;
+`
 
 export const SPageLayoutHeader = styled.div`
     background: ${({ theme }) => theme.headerBackground};
@@ -15,4 +15,4 @@ export const SPageLayoutHeader = styled.div`
     padding: 0 40px;
     box-sizing: border-box;
     margin-bottom: 100px;
-`;
+`

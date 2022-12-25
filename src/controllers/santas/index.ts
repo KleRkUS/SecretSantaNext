@@ -1,2 +1,2 @@
-export { SantaController } from './santasController';
-export type { PlayerByPlayerResult } from './santasController';
+export { SantaController } from './santasController'
+export type { PlayerByPlayerResult } from './santasController'

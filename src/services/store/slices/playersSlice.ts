@@ -1,19 +1,19 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { RootState } from '../store';
+import { RootState } from '../store'
 
 interface SinglePlayerState {
-    name: string;
-    player: string;
+    name: string
+    player: string
 }
 
 interface PlayersSliceState {
-    players: SinglePlayerState[];
+    players: SinglePlayerState[]
 }
 
 const initialState: PlayersSliceState = {
     players: []
-};
+}
 
 const playersSlice = createSlice({
     name: 'players',
@@ -23,12 +23,12 @@ const playersSlice = createSlice({
             state: PlayersSliceState,
             action: PayloadAction<SinglePlayerState[]>
         ) => {
-            state.players = action.payload;
+            state.players = action.payload
         }
     }
-});
+})
 
-export const { createPlayers } = playersSlice.actions;
+export const { createPlayers } = playersSlice.actions
 
-export const getPlayers = (state: RootState) => state.players.players;
-export const players = playersSlice.reducer;
+export const getPlayers = (state: RootState) => state.players.players
+export const players = playersSlice.reducer

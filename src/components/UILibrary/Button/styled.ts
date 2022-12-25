@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import type { SButtonProps } from './Button';
+import type { SButtonProps } from './Button'
 
 const getButtonStyleString = (
     background: string,
@@ -14,13 +14,13 @@ const getButtonStyleString = (
         border-color: ${border};
         border-width: ${borderWidth};
         border-style: solid;
-    `;
+    `
 
 const getButtonHoverStyleString = (background: string, text: string): string =>
     `
         background-color: ${background};
         color: ${text};
-    `;
+    `
 
 export const SButton = styled.button<SButtonProps>`
     ${({ theme, variant }: SButtonProps) => {
@@ -30,26 +30,26 @@ export const SButton = styled.button<SButtonProps>`
                     theme.colors.contrast,
                     theme.headerBackground,
                     theme.headerBackground
-                );
+                )
             case 'contrast':
                 return getButtonStyleString(
                     theme.background,
                     theme.text,
                     theme.headerBackground
-                );
+                )
             case 'text':
                 return getButtonStyleString(
                     'transparent',
                     theme.text,
                     'transparent',
                     0
-                );
+                )
             default:
                 return getButtonStyleString(
                     theme.colors.contrast,
                     theme.headerBackground,
                     theme.headerBackground
-                );
+                )
         }
     }}
     padding: ${({ theme, variant }: SButtonProps) =>
@@ -65,32 +65,32 @@ export const SButton = styled.button<SButtonProps>`
     margin-right: ${({ theme, marginRight }: SButtonProps) =>
         theme.spacings[marginRight!] || 0};
     transition: all 0.3s ease-in-out;
-    cursor: ${({ disabled }) => disabled ? 'auto' : 'pointer'};
+    cursor: ${({ disabled }) => (disabled ? 'auto' : 'pointer')};
     box-shadow: none;
-    opacity: ${({ disabled }) => disabled ? '0.6' : '1'};
+    opacity: ${({ disabled }) => (disabled ? '0.6' : '1')};
     
     &:hover {
         ${({ theme, variant, disabled }: SButtonProps) => {
             if (disabled) {
-                return '';
+                return ''
             }
-            
+
             switch (variant) {
                 case 'regular':
                     return getButtonHoverStyleString(
                         theme.headerBackground,
                         theme.background
-                    );
+                    )
                 case 'contrast':
                     return getButtonHoverStyleString(
                         theme.background,
                         theme.headerBackground
-                    );
+                    )
                 default:
                     return getButtonHoverStyleString(
                         theme.headerBackground,
                         theme.background
-                    );
+                    )
             }
         }}
-`;
+`

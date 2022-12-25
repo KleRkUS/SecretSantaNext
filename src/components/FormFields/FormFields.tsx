@@ -1,22 +1,22 @@
-import { memo, useCallback, useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react'
 
-import { Button, Flex, InputText, Typography } from '#components/UILibrary';
-import { Select } from '#components/UILibrary/Select/Select';
-import { PlayersFormState } from '#pages/Home';
+import { Button, Flex, InputText, Typography } from '#components/UILibrary'
+import { Select } from '#components/UILibrary/Select/Select'
+import { PlayersFormState } from '#pages/Home'
 
-import { SPlayerRow } from './styled';
+import { SPlayerRow } from './styled'
 
 interface FormFieldsProps {
-    onUpdate: (newState: PlayersFormState) => void;
-    currentPlayers: PlayersFormState;
+    onUpdate: (newState: PlayersFormState) => void
+    currentPlayers: PlayersFormState
 }
 
 export const FormFields = memo(
     ({ onUpdate, currentPlayers }: FormFieldsProps) => {
-        const newPlayerRef = useRef<HTMLInputElement | null>(null);
+        const newPlayerRef = useRef<HTMLInputElement | null>(null)
 
         const addPlayer = useCallback(() => {
-            const { value } = newPlayerRef.current!;
+            const { value } = newPlayerRef.current!
 
             if (value && value.length > 0) {
                 onUpdate([
@@ -26,17 +26,17 @@ export const FormFields = memo(
                         id: currentPlayers.length,
                         exclude: []
                     }
-                ]);
+                ])
             }
-        }, [currentPlayers, newPlayerRef]);
+        }, [currentPlayers, newPlayerRef])
 
         const deletePlayer = (id: number) => {
             if (currentPlayers.some(({ id: playerId }) => playerId === id)) {
                 onUpdate(
                     currentPlayers.filter(({ id: playerId }) => playerId !== id)
-                );
+                )
             }
-        };
+        }
 
         const updateExcluded = useCallback(
             (id: number) => (exclude: number[]) => {
@@ -46,13 +46,13 @@ export const FormFields = memo(
                               ...player,
                               exclude
                           }
-                        : player;
-                });
+                        : player
+                })
 
-                onUpdate(newState);
+                onUpdate(newState)
             },
             [currentPlayers, onUpdate]
-        );
+        )
 
         return (
             <>
@@ -115,6 +115,6 @@ export const FormFields = memo(
                     </Flex>
                 </Flex>
             </>
-        );
+        )
     }
-);
+)

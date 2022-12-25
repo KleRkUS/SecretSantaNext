@@ -1,23 +1,23 @@
-import Link from 'next/link';
-import { ReactNode } from 'react';
-import { TypedUseSelectorHook, useSelector } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
+import Link from 'next/link'
+import { ReactNode } from 'react'
+import { TypedUseSelectorHook, useSelector } from 'react-redux'
+import { ThemeProvider } from 'styled-components'
 
-import { Typography } from '#components/UILibrary';
-import { SantaRoutes, routes } from '#constants/routes';
-import { ThemesKeys } from '#constants/themes';
-import { RootState, getCurrentTheme } from '#services/store';
-import { themes } from '#services/theme';
+import { Typography } from '#components/UILibrary'
+import { SantaRoutes, routes } from '#constants/routes'
+import { ThemesKeys } from '#constants/themes'
+import { RootState, getCurrentTheme } from '#services/store'
+import { themes } from '#services/theme'
 
-import { SPageLayout, SPageLayoutHeader } from './styled';
+import { SPageLayout, SPageLayoutHeader } from './styled'
 
 interface PageLayoutProps {
-    children: ReactNode;
+    children: ReactNode
 }
 
 export const PageLayout = ({ children }: PageLayoutProps) => {
-    const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-    const theme: ThemesKeys = useAppSelector(getCurrentTheme);
+    const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+    const theme: ThemesKeys = useAppSelector(getCurrentTheme)
 
     return (
         <ThemeProvider theme={themes[theme]}>
@@ -39,5 +39,5 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
                 {children}
             </SPageLayout>
         </ThemeProvider>
-    );
-};
+    )
+}

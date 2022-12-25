@@ -3,21 +3,21 @@ import {
     SizesKeys,
     SpacingKeys,
     ThemesKeys
-} from '#constants/themes';
+} from '#constants/themes'
 
 export interface AppTheme {
-    background: string;
-    text: string;
-    headerBackground: string;
-    headerText: string;
-    colors: { [key in ColorsKeys]: string };
-    sizes: { [key in SizesKeys]: string };
-    spacings: { [key in SpacingKeys]: string };
-    breakpoints: { [key in SpacingKeys]: string };
+    background: string
+    text: string
+    headerBackground: string
+    headerText: string
+    colors: { [key in ColorsKeys]: string }
+    sizes: { [key in SizesKeys]: string }
+    spacings: { [key in SpacingKeys]: string }
+    breakpoints: { [key in SpacingKeys]: string }
 }
 
 export interface ThemedComponent {
-    theme: AppTheme;
+    theme: AppTheme
 }
 
 const common = {
@@ -37,7 +37,7 @@ const common = {
         md: '32px',
         lg: '48px'
     }
-};
+}
 
 const light = {
     background: '#fefefe',
@@ -49,7 +49,7 @@ const light = {
         regular: '#000'
     },
     ...common
-};
+}
 
 const dark = {
     background: '#414141',
@@ -61,13 +61,13 @@ const dark = {
         regular: '#eee'
     },
     ...common
-};
+}
 
 export type Themes = {
-    [key in ThemesKeys]: AppTheme;
-};
+    [key in ThemesKeys]: AppTheme
+}
 
 export const themes: Themes = {
     light,
     dark
-};
+}

@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { STypographyProps } from './Typography';
+import { STypographyProps } from './Typography'
 
 export const STypography = styled.span<STypographyProps>`
     color: ${({ theme, color }: STypographyProps) =>
@@ -16,4 +16,4 @@ export const STypography = styled.span<STypographyProps>`
         theme.spacings[marginRight!] || 0};
     margin-bottom: ${({ theme, marginBottom }: STypographyProps) =>
         theme.spacings[marginBottom!] || 0};
-`;
+`

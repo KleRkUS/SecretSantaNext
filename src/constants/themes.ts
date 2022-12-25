@@ -1,7 +1,7 @@
-export type ThemesKeys = 'light' | 'dark';
+export type ThemesKeys = 'light' | 'dark'
 
-export type ColorsKeys = 'contrast' | 'regular';
+export type ColorsKeys = 'contrast' | 'regular'
 
-export type SizesKeys = 'md' | 'lg';
+export type SizesKeys = 'md' | 'lg'
 
-export type SpacingKeys = 'xs' | 'sm' | SizesKeys;
+export type SpacingKeys = 'xs' | 'sm' | SizesKeys

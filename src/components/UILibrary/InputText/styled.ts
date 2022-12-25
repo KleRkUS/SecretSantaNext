@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import { SInputTextProps } from '#components/UILibrary/InputText/InputText';
+import { SInputTextProps } from '#components/UILibrary/InputText/InputText'
 
 export const SInputText = styled.input.attrs(() => ({
     type: 'text'
@@ -15,4 +15,4 @@ export const SInputText = styled.input.attrs(() => ({
         theme.spacings[marginBottom!] || 0};
     margin-left: ${({ theme, marginLeft }: SInputTextProps) =>
         theme.spacings[marginLeft!] || 0};
-`;
+`

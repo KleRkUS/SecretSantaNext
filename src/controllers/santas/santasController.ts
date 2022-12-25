@@ -1,50 +1,50 @@
-import { randomOrgUrl } from '#constants/requests';
-import { Player, PlayersFormState } from '#pages/Home';
+import { randomOrgUrl } from '#constants/requests'
+import { Player, PlayersFormState } from '#pages/Home'
 
 interface RandomlySortedPlayer extends Player {
-    sortCoefficient: number;
+    sortCoefficient: number
 }
 
 export type PlayerByPlayerResult = {
-    [key in number]: number;
-};
+    [key in number]: number
+}
 
 export interface SantaControllerClass {
-    getPlayerByPlayer: () => Promise<PlayerByPlayerResult>;
+    getPlayerByPlayer: () => Promise<PlayerByPlayerResult>
 }
 
 export class SantaController implements SantaControllerClass {
-    private players: PlayersFormState;
-    private randomlySortedPlayers: RandomlySortedPlayer[];
-    private readonly crossPresents: boolean;
+    private players: PlayersFormState
+    private randomlySortedPlayers: RandomlySortedPlayer[]
+    private readonly crossPresents: boolean
 
     constructor(players: PlayersFormState, crossPresents: boolean = true) {
-        this.players = players;
-        this.randomlySortedPlayers = [];
-        this.crossPresents = crossPresents;
+        this.players = players
+        this.randomlySortedPlayers = []
+        this.crossPresents = crossPresents
     }
 
     async getPlayerByPlayer(): Promise<PlayerByPlayerResult> {
-        const players = this.sortPlayersByExcluded();
-        await this.getRandomlySortedPlayers();
+        const players = this.sortPlayersByExcluded()
+        await this.getRandomlySortedPlayers()
 
         return players.reduce<PlayerByPlayerResult>(
             (resultAcc, currentPlayer, index) => {
                 const santa =
                     index === 0
                         ? currentPlayer
-                        : this.sortPlayersByExcluded()[0];
+                        : this.sortPlayersByExcluded()[0]
 
                 const playerId: number | undefined =
                     this.randomlySortedPlayers.find(
                         (player) =>
                             !santa.exclude.includes(player.id) &&
                             santa.id !== player.id
-                    )?.id;
+                    )?.id
 
                 if (playerId === undefined) {
-                    this.throwError('Players does not fit each other!');
-                    return {[santa.id]: 0}
+                    this.throwError('Players does not fit each other!')
+                    return { [santa.id]: 0 }
                 }
 
                 if (!this.crossPresents) {
@@ -55,38 +55,36 @@ export class SantaController implements SantaControllerClass {
                                   ...player,
                                   exclude: [...player.exclude, santa.id]
                               }
-                    );
+                    )
                 }
 
                 this.players = this.players.reduce<PlayersFormState>(
                     (acc, player) => {
                         switch (player.id) {
                             case santa.id:
-                                return acc;
+                                return acc
                             default:
-                                return [...acc, player];
+                                return [...acc, player]
                         }
                     },
                     []
-                );
+                )
 
                 this.randomlySortedPlayers = this.randomlySortedPlayers.filter(
                     (player) => player?.id !== playerId
-                );
+                )
 
                 return {
                     ...resultAcc,
                     [santa.id]: playerId
-                };
+                }
             },
             {}
-        );
+        )
     }
 
     private async getRandomlySortedPlayers(): Promise<void> {
-        const randomNumbers = await this.getRandomOrgArray(
-            this.players.length
-        );
+        const randomNumbers = await this.getRandomOrgArray(this.players.length)
 
         this.randomlySortedPlayers = this.players
             .map(
@@ -98,35 +96,35 @@ export class SantaController implements SantaControllerClass {
             .sort(
                 (playerA, playerB) =>
                     playerB.sortCoefficient - playerA.sortCoefficient
-            );
+            )
     }
 
     private sortPlayersByExcluded(): PlayersFormState {
-        return this.players.sort((a, b) => b.exclude.length - a.exclude.length);
+        return this.players.sort((a, b) => b.exclude.length - a.exclude.length)
     }
 
     private async getRandomOrgArray(num: number): Promise<number[]> {
-        const url = `${randomOrgUrl}&num=${num}`;
+        const url = `${randomOrgUrl}&num=${num}`
 
         return await fetch(url)
             .then(async (res: Response) => {
-                const parsed = await res.text();
+                const parsed = await res.text()
                 return parsed
                     .split('\n')
-                    .reduce<number[]>((acc, number) => (
-                        number === ''
-                            ? acc
-                            : [...acc, Number(number)]
-                    ), [])
+                    .reduce<number[]>(
+                        (acc, number) =>
+                            number === '' ? acc : [...acc, Number(number)],
+                        []
+                    )
             })
             .catch((error) => {
-                this.throwError(error);
-                return [];
-            });
+                this.throwError(error)
+                return []
+            })
     }
 
     throwError(error: string): void {
-        console.log('ERROR ' + error);
-        throw new Error(error);
+        console.log('ERROR ' + error)
+        throw new Error(error)
     }
 }

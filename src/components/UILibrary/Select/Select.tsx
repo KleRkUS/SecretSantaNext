@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/image'
 import {
     ChangeEvent,
     ChangeEventHandler,
@@ -6,27 +6,27 @@ import {
     MouseEventHandler,
     useCallback,
     useState
-} from 'react';
+} from 'react'
 
-import { Flex, Typography } from '#components/UILibrary';
+import { Flex, Typography } from '#components/UILibrary'
 
 import {
     SSelectContainer,
     SSelectDropdown,
     SSelectList,
     SSelectListItem
-} from './styled';
+} from './styled'
 
 type Option = {
-    id: number;
-    name: string;
-};
+    id: number
+    name: string
+}
 
 interface SelectProps {
-    placeholder?: string;
-    options: Option[];
-    chosenIds: number[];
-    updateOptions: (options: number[]) => void;
+    placeholder?: string
+    options: Option[]
+    chosenIds: number[]
+    updateOptions: (options: number[]) => void
 }
 
 export const Select = ({
@@ -35,10 +35,10 @@ export const Select = ({
     chosenIds,
     updateOptions
 }: SelectProps) => {
-    const [isOpened, setIsOpened] = useState<boolean>(false);
+    const [isOpened, setIsOpened] = useState<boolean>(false)
 
-    function handleClick(id: number): MouseEventHandler;
-    function handleClick(id: number, checkbox?: boolean): ChangeEventHandler;
+    function handleClick(id: number): MouseEventHandler
+    function handleClick(id: number, checkbox?: boolean): ChangeEventHandler
     function handleClick(
         id: number,
         checkbox?: boolean
@@ -51,8 +51,8 @@ export const Select = ({
                         : chosenIds.filter(
                               (optionId: number) => optionId !== id
                           )
-                );
-            };
+                )
+            }
         } else {
             return () => {
                 updateOptions(
@@ -61,14 +61,14 @@ export const Select = ({
                               (optionId: number) => optionId !== id
                           )
                         : [...chosenIds, id]
-                );
-            };
+                )
+            }
         }
     }
 
     const toggleOpen = () => {
-        setIsOpened((prevState) => !prevState);
-    };
+        setIsOpened((prevState) => !prevState)
+    }
 
     return (
         <SSelectContainer direction="column">
@@ -96,5 +96,5 @@ export const Select = ({
                 ))}
             </SSelectList>
         </SSelectContainer>
-    );
-};
+    )
+}
