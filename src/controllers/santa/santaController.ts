@@ -9,11 +9,11 @@ export type PlayerByPlayerResult = {
     [key in number]: number;
 };
 
-export interface SantaControllerClass {
+export interface ISantaController {
     getPlayerByPlayer: () => Promise<PlayerByPlayerResult>;
 }
 
-export class SantaController implements SantaControllerClass {
+export class SantaController implements ISantaController {
     private _players: PlayersFormState;
     private _randomlySortedPlayers: RandomlySortedPlayer[];
     private readonly _crossPresents: boolean;
@@ -30,7 +30,7 @@ export class SantaController implements SantaControllerClass {
 
         return players.reduce<PlayerByPlayerResult>(
             (resultAcc: PlayerByPlayerResult, currentPlayer: Player, index: number) => {
-                const santa = index === 0 ? currentPlayer : this._sortPlayersByExcluded()[0];
+                const santa: Player = index === 0 ? currentPlayer : this._sortPlayersByExcluded()[0];
 
                 const playerId: number | undefined = this._randomlySortedPlayers.find(
                     (player: RandomlySortedPlayer) => !santa.exclude.includes(player.id) && santa.id !== player.id
@@ -41,26 +41,7 @@ export class SantaController implements SantaControllerClass {
                     return { [santa.id]: 0 };
                 }
 
-                if (!this._crossPresents) {
-                    this._players = this._players.map((player: Player) =>
-                        player.id !== playerId
-                            ? player
-                            : {
-                                  ...player,
-                                  exclude: [...player.exclude, santa.id],
-                              }
-                    );
-                }
-
-                this._players = this._players.reduce<PlayersFormState>((acc: PlayersFormState, player: Player) => {
-                    return player.id === santa.id
-                        ? acc
-                        : [...acc, player];
-                }, []);
-
-                this._randomlySortedPlayers = this._randomlySortedPlayers.filter(
-                    (player: RandomlySortedPlayer) => player.id !== playerId
-                );
+                this._updateClassFields(santa, playerId);
 
                 return {
                     ...resultAcc,
@@ -68,6 +49,27 @@ export class SantaController implements SantaControllerClass {
                 };
             },
             {}
+        );
+    }
+
+    private _updateClassFields(santa: Player, playerId: number | undefined): void {
+        if (!this._crossPresents) {
+            this._players = this._players.map((player: Player) =>
+                player.id !== playerId
+                    ? player
+                    : {
+                        ...player,
+                        exclude: [...player.exclude, santa.id],
+                    }
+            );
+        }
+
+        this._players = this._players.reduce<PlayersFormState>((acc: PlayersFormState, player: Player) => {
+            return player.id === santa.id ? acc : [...acc, player];
+        }, []);
+
+        this._randomlySortedPlayers = this._randomlySortedPlayers.filter(
+            (player: RandomlySortedPlayer) => player.id !== playerId
         );
     }
 

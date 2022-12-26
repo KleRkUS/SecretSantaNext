@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { FormFields } from '#components/FormFields';
 import { Button, Flex, Typography } from '#components/UILibrary';
-import { PlayerByPlayerResult } from '#controllers/santas';
+import { PlayerByPlayerResult } from '#controllers/santa';
 
 export interface Player {
     id: number;
@@ -29,7 +29,7 @@ const Home = () => {
 
         const pseudoRandomizedPlayers = [...formState].sort(() => Math.random() - Math.random());
 
-        fetch('/api/santas', {
+        fetch('/api/santa', {
             method: 'POST',
             body: JSON.stringify({
                 players: pseudoRandomizedPlayers,

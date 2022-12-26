@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { PlayerByPlayerResult, SantaController } from '#controllers/santas';
+import { PlayerByPlayerResult, SantaController } from '#controllers/santa';
 import { PlayersFormState } from '#pages/Home';
 
 export interface ISantaResponse {
