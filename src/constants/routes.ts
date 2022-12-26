@@ -1,11 +1,11 @@
 export interface SantaRoutes {
-    path: string
-    title: string
+    path: string;
+    title: string;
 }
 
-export const routes: SantaRoutes[] = [
+export const ROUTES: SantaRoutes[] = [
     {
         path: '/',
-        title: 'Home'
-    }
-]
+        title: 'Home',
+    },
+];

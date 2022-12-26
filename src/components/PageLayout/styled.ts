@@ -1,13 +1,13 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
 
-import {Flex, SFlexProps} from '#components/UILibrary/Flex'
-import {Typography} from "#components/UILibrary";
+import { Typography } from '#components/UILibrary';
+import { Flex, SFlexProps } from '#components/UILibrary/Flex';
 
 export const SPageLayout = styled(Flex)`
     width: 100%;
     min-height: 100vh;
     background-color: ${({ theme }: SFlexProps) => theme.background};
-`
+`;
 
 export const SPageLayoutHeader = styled(Flex)`
     background: ${({ theme }: SFlexProps) => theme.headerBackground};
@@ -18,7 +18,7 @@ export const SPageLayoutHeader = styled(Flex)`
     padding: 0 40px;
     box-sizing: border-box;
     margin-bottom: 100px;
-`
+`;
 
 export const SThemeSwitch = styled(Typography)`
     cursor: pointer;

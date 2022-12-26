@@ -1,40 +1,37 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { PlayerByPlayerResult, SantaController } from '#controllers/santas'
-import { PlayersFormState } from '#pages/Home'
+import { PlayerByPlayerResult, SantaController } from '#controllers/santas';
+import { PlayersFormState } from '#pages/Home';
 
-export interface SantasResponse {
-    message?: string
-    result?: PlayerByPlayerResult
+export interface ISantaResponse {
+    message?: string;
+    result?: PlayerByPlayerResult;
 }
 
-interface RequestBody {
-    players: PlayersFormState
-    crossPresents: boolean
+interface IRequestBody {
+    players: PlayersFormState;
+    crossPresents: boolean;
 }
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse<SantasResponse>
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ISantaResponse>) {
     if (req.method !== 'POST') {
         res.status(400).json({
-            message: 'Invalid request type, only POST is supported'
-        })
+            message: 'Invalid request type, only POST is supported',
+        });
 
-        return
+        return;
     }
 
     const body: string = req.body as string;
-    const { players, crossPresents }: RequestBody = JSON.parse(body) as RequestBody
-    const santaController = new SantaController(players, crossPresents)
+    const { players, crossPresents }: IRequestBody = JSON.parse(body) as IRequestBody;
+    const santaController = new SantaController(players, crossPresents);
 
     try {
-        const result = await santaController.getPlayerByPlayer()
-        res.status(200).json({ result })
+        const result = await santaController.getPlayerByPlayer();
+        res.status(200).json({ result });
     } catch (err: unknown) {
         res.status(500).json({
-            message: `Unexpected error: ${err ? JSON.stringify(err) : "Unknown error"}`
-        })
+            message: `Unexpected error: ${err ? JSON.stringify(err) : 'Unknown error'}`,
+        });
     }
 }

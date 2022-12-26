@@ -1,1 +1,1 @@
-export { switchTheme, getCurrentTheme, theme } from './themeSlice'
+export { switchTheme, getCurrentTheme, theme } from './themeSlice';

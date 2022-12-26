@@ -1,130 +1,117 @@
-import { randomOrgUrl } from '#constants/requests'
-import { Player, PlayersFormState } from '#pages/Home'
+import { RANDOM_ORG_URL } from '#constants/requests';
+import { Player, PlayersFormState } from '#pages/Home';
 
 interface RandomlySortedPlayer extends Player {
-    sortCoefficient: number
+    sortCoefficient: number;
 }
 
 export type PlayerByPlayerResult = {
-    [key in number]: number
-}
+    [key in number]: number;
+};
 
 export interface SantaControllerClass {
-    getPlayerByPlayer: () => Promise<PlayerByPlayerResult>
+    getPlayerByPlayer: () => Promise<PlayerByPlayerResult>;
 }
 
 export class SantaController implements SantaControllerClass {
-    private players: PlayersFormState
-    private randomlySortedPlayers: RandomlySortedPlayer[]
-    private readonly crossPresents: boolean
+    private _players: PlayersFormState;
+    private _randomlySortedPlayers: RandomlySortedPlayer[];
+    private readonly _crossPresents: boolean;
 
     constructor(players: PlayersFormState, crossPresents: boolean) {
-        this.players = players
-        this.randomlySortedPlayers = []
-        this.crossPresents = crossPresents
+        this._players = players;
+        this._randomlySortedPlayers = [];
+        this._crossPresents = crossPresents;
     }
 
     async getPlayerByPlayer(): Promise<PlayerByPlayerResult> {
-        const players = this.sortPlayersByExcluded()
-        await this.getRandomlySortedPlayers()
+        const players = this._sortPlayersByExcluded();
+        await this._getRandomlySortedPlayers();
 
         return players.reduce<PlayerByPlayerResult>(
-            (resultAcc, currentPlayer, index) => {
-                const santa =
-                    index === 0
-                        ? currentPlayer
-                        : this.sortPlayersByExcluded()[0]
+            (resultAcc: PlayerByPlayerResult, currentPlayer: Player, index: number) => {
+                const santa = index === 0 ? currentPlayer : this._sortPlayersByExcluded()[0];
 
-                const playerId: number | undefined =
-                    this.randomlySortedPlayers.find(
-                        (player) =>
-                            !santa.exclude.includes(player.id) &&
-                            santa.id !== player.id
-                    )?.id
+                const playerId: number | undefined = this._randomlySortedPlayers.find(
+                    (player: RandomlySortedPlayer) => !santa.exclude.includes(player.id) && santa.id !== player.id
+                )?.id;
 
                 if (playerId === undefined) {
-                    this.throwError('Players does not fit each other!')
-                    return { [santa.id]: 0 }
+                    this.throwError('Players does not fit each other!');
+                    return { [santa.id]: 0 };
                 }
 
-                if (!this.crossPresents) {
-                    this.players = this.players.map((player) =>
+                if (!this._crossPresents) {
+                    this._players = this._players.map((player: Player) =>
                         player.id !== playerId
                             ? player
                             : {
                                   ...player,
-                                  exclude: [...player.exclude, santa.id]
+                                  exclude: [...player.exclude, santa.id],
                               }
-                    )
+                    );
                 }
 
-                this.players = this.players.reduce<PlayersFormState>(
-                    (acc, player) => {
-                        switch (player.id) {
-                            case santa.id:
-                                return acc
-                            default:
-                                return [...acc, player]
-                        }
-                    },
-                    []
-                )
+                this._players = this._players.reduce<PlayersFormState>((acc: PlayersFormState, player: Player) => {
+                    return player.id === santa.id
+                        ? acc
+                        : [...acc, player];
+                }, []);
 
-                this.randomlySortedPlayers = this.randomlySortedPlayers.filter(
-                    (player) => player.id !== playerId
-                )
+                this._randomlySortedPlayers = this._randomlySortedPlayers.filter(
+                    (player: RandomlySortedPlayer) => player.id !== playerId
+                );
 
                 return {
                     ...resultAcc,
-                    [santa.id]: playerId
-                }
+                    [santa.id]: playerId,
+                };
             },
             {}
-        )
+        );
     }
 
-    private async getRandomlySortedPlayers(): Promise<void> {
-        const randomNumbers = await this.getRandomOrgArray(this.players.length)
+    private async _getRandomlySortedPlayers(): Promise<void> {
+        const randomNumbers = await this._getRandomOrgArray(this._players.length);
 
-        this.randomlySortedPlayers = this.players
+        this._randomlySortedPlayers = this._players
             .map(
                 (player: Player, index: number): RandomlySortedPlayer => ({
                     ...player,
-                    sortCoefficient: randomNumbers[index]
+                    sortCoefficient: randomNumbers[index],
                 })
             )
             .sort(
-                (playerA, playerB) =>
+                (playerA: RandomlySortedPlayer, playerB: RandomlySortedPlayer) =>
                     playerB.sortCoefficient - playerA.sortCoefficient
-            )
+            );
     }
 
-    private sortPlayersByExcluded(): PlayersFormState {
-        return this.players.sort((a, b) => b.exclude.length - a.exclude.length)
+    private _sortPlayersByExcluded(): PlayersFormState {
+        return this._players.sort((a: Player, b: Player) => b.exclude.length - a.exclude.length);
     }
 
-    private async getRandomOrgArray(num: number): Promise<number[]> {
-        const url = `${randomOrgUrl}&num=${num}`
+    private async _getRandomOrgArray(num: number): Promise<number[]> {
+        const url = `${RANDOM_ORG_URL}&num=${num}`;
 
         return await fetch(url)
             .then(async (res: Response) => {
-                const parsed = await res.text()
+                const parsed = await res.text();
                 return parsed
                     .split('\n')
                     .reduce<number[]>(
-                        (acc, number) =>
-                            number === '' ? acc : [...acc, Number(number)],
+                        (acc: number[], number: string) => (number === '' ? acc : [...acc, Number(number)]),
                         []
-                    )
+                    );
             })
             .catch((error: string) => {
-                this.throwError(error)
-                return []
-            })
+                this.throwError(error);
+                return [];
+            });
     }
 
     throwError(error: string): void {
-        console.log('ERROR ' + error)
-        throw new Error(error)
+        console.log('ERROR ' + error);
+        throw new Error(error);
     }
 }
